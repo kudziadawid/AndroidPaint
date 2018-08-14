@@ -107,15 +107,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // Show save painting confirmation dialog.
                 showSavePaintingConfirmationDialog(this);
                 break;
-            case R.id.buttonUndo:
-                DrawingView undoResult = mDrawingView.undoLastPath();
-                if (undoResult == null) {
-                    mDrawingView.startNew();
-                } else {
-                    mDrawingView = undoResult;
-                    mDrawingView.afterUndo();
-                }
-                break;
         }
     }
 
