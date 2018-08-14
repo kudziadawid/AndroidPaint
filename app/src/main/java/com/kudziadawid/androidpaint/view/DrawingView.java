@@ -16,6 +16,9 @@ import android.view.View;
 
 import com.kudziadawid.androidpaint.R;
 
+import java.util.LinkedList;
+import java.util.List;
+
 
 public class DrawingView extends View{
 
@@ -34,6 +37,7 @@ public class DrawingView extends View{
     private float brushSize, lastBrushSize;
     // To enable and disable erasing mode.
     private boolean erase = false;
+    private List<DrawingView> listDrawingView = new LinkedList<>();
 
     public DrawingView(Context context, AttributeSet attrs){
         super(context, attrs);
@@ -90,6 +94,7 @@ public class DrawingView extends View{
                     drawPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
                 }
                 drawCanvas.drawPath(drawPath, drawPaint);
+                this.setDrawingCacheEnabled(true);
                 drawPath.reset();
                 drawPaint.setXfermode(null);
                 break;
@@ -99,6 +104,7 @@ public class DrawingView extends View{
 
         // invalidate the view so that canvas is redrawn.
         invalidate();
+        listDrawingView.add(this);
         return true;
     }
 
@@ -139,6 +145,22 @@ public class DrawingView extends View{
 
     public void startNew(){
         drawCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
+        invalidate();
+    }
+
+    public DrawingView undoLastPath() {
+
+        if (listDrawingView.size() > 1) {
+            listDrawingView.remove(listDrawingView.size() - 1);
+            return listDrawingView.get(listDrawingView.size() - 1);
+        } else if (listDrawingView.size() == 1) {
+            listDrawingView.remove(0);
+            return null;
+        }
+        return null;
+    }
+
+    public void afterUndo() {
         invalidate();
     }
 }
