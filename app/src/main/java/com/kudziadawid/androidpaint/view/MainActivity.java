@@ -40,9 +40,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         mDrawingView = findViewById(R.id.drawing);
-        // Getting the initial paint color.
         LinearLayout paintLayout = findViewById(R.id.paint_colors);
-        // 0th child is white color, so selecting first child to give black as initial color.
+
         currPaint = (ImageButton) paintLayout.getChildAt(1);
         currPaint.setImageDrawable(getResources().getDrawable(R.drawable.pallet_pressed));
         drawButton = findViewById(R.id.buttonBrush);
@@ -71,11 +70,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void paintClicked(View view){
         if (view != currPaint){
-            // Update the color
+
             ImageButton imageButton = (ImageButton) view;
             String colorTag = imageButton.getTag().toString();
             mDrawingView.setColor(colorTag);
-            // Swap the backgrounds for last active and currently active image button.
+
             imageButton.setImageDrawable(getResources().getDrawable(R.drawable.pallet_pressed));
             currPaint.setImageDrawable(getResources().getDrawable(R.drawable.pallet));
             currPaint = (ImageButton) view;
@@ -89,22 +88,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = v.getId();
         switch(id){
             case R.id.buttonBrush:
-                // Show brush size chooser dialog
                 showBrushSizeChooserDialog();
                 break;
             case R.id.buttonPencil:
                 showPencilSizeChooserDialog();
                 break;
             case R.id.buttonErase:
-                // Show eraser size chooser dialog
                 showEraserSizeChooserDialog();
                 break;
             case R.id.buttonNew:
-                // Show new painting alert dialog
                 showNewPaintingAlertDialog();
                 break;
             case R.id.buttonSave:
-                // Show save painting confirmation dialog.
                 showSavePaintingConfirmationDialog(this);
                 break;
         }

@@ -21,21 +21,14 @@ import java.util.List;
 
 
 public class DrawingView extends View{
-
-    // To hold the path that will be drawn.
+    
     private Path drawPath;
-    // Paint object to draw drawPath and drawCanvas.
     private Paint drawPaint, canvasPaint;
-    // initial color
     private int paintColor = 0xff000000;
     private int previousColor = paintColor;
-    // canvas on which drawing takes place.
     private Canvas drawCanvas;
-    // canvas bitmap
     private Bitmap canvasBitmap;
-    // Brush stroke width
     private float brushSize, lastBrushSize;
-    // To enable and disable erasing mode.
     private boolean erase = false;
     private List<DrawingView> listDrawingView = new LinkedList<>();
 
@@ -48,7 +41,6 @@ public class DrawingView extends View{
         drawPath = new Path();
         drawPaint = new Paint();
         drawPaint.setColor(paintColor);
-        // Making drawing smooth.
         drawPaint.setAntiAlias(true);
         drawPaint.setStyle(Paint.Style.STROKE);
         drawPaint.setStrokeJoin(Paint.Join.ROUND);
@@ -56,7 +48,6 @@ public class DrawingView extends View{
 
         canvasPaint = new Paint(Paint.DITHER_FLAG);
 
-        // Initial brush size is medium.
         brushSize = getResources().getInteger(R.integer.medium_size);
         lastBrushSize = brushSize;
         drawPaint.setStrokeWidth(brushSize);
@@ -78,10 +69,9 @@ public class DrawingView extends View{
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        // X and Y position of user touch.
         float touchX = event.getX();
         float touchY = event.getY();
-        // Draw the path according to the touch event taking place.
+
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 drawPath.moveTo(touchX, touchY);
@@ -101,14 +91,12 @@ public class DrawingView extends View{
                 return false;
         }
 
-        // invalidate the view so that canvas is redrawn.
         invalidate();
         listDrawingView.add(this);
         return true;
     }
 
     public void setColor(String newColor){
-        // invalidate the view
         invalidate();
         paintColor = Color.parseColor(newColor);
         drawPaint.setColor(paintColor);
@@ -130,11 +118,9 @@ public class DrawingView extends View{
     }
 
     public void setErase(boolean isErase){
-        //set erase true or false
         erase = isErase;
         if(erase) {
             drawPaint.setColor(Color.WHITE);
-            //drawPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
         }
         else {
             drawPaint.setColor(previousColor);
